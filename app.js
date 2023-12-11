@@ -23,7 +23,11 @@ const server = http.createServer(app);
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://client-shop-eta.vercel.app",
+    ],
     methods: ["GET,POST,PUT,PATH,DELETE,OPTIONS,HEAD"],
     credentials: true,
   })
