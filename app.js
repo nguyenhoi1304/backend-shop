@@ -27,6 +27,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://client-shop-eta.vercel.app",
+      "https://admin-shop-phi.vercel.app",
     ],
     methods: ["GET,POST,PUT,PATH,DELETE,OPTIONS,HEAD"],
     credentials: true,
