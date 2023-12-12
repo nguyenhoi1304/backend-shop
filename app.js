@@ -5,8 +5,6 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const { Server } = require("socket.io");
-const http = require("http");
 // routes
 const productRoutes = require("./src/routers/product");
 const userRoutes = require("./src/routers/user");
@@ -19,7 +17,6 @@ dotenv.config();
 ///////////////////////
 // Cấu hình
 const app = express();
-const server = http.createServer(app);
 
 app.use(
   cors({
@@ -69,28 +66,14 @@ mongoose
     console.log(err);
   });
 
-const io = new Server(server, {
-  cors: {
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://client-shop-olive.vercel.app/",
-    ],
-    methods: ["GET,POST,PUT,PATH,DELETE,OPTIONS,HEAD"],
-    credentials: true,
-  },
+const server = app.listen(process.env.PORT || 5000, () => {
+  console.log("Server Started");
 });
+const io = require("./socket").init(server);
 
 io.on("connection", (socket) => {
-  console.log(`a user connected": ${socket.id}`);
-  socket.on("send_message", (data) => {
-    console.log(data);
+  console.log("a user connected");
+  socket.on("disconnect", function () {
+    console.log("user disconnected");
   });
-  socket.on("disconnect", () => {
-    console.log(`a user disconnect": ${socket.id}`);
-  });
-});
-
-server.listen(process.env.PORT, () => {
-  console.log("Server Started");
 });
