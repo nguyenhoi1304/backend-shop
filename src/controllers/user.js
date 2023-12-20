@@ -12,7 +12,12 @@ exports.getDetail = async (req, res, next) => {
   }
 };
 
-exports.findAll = (req, res, next) => {
+exports.findAll = async (req, res, next) => {
+  const result = await UserModel.find().lean();
+  res.status(200).json(result);
+};
+
+exports.findAllPagination = (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = req.query.limit;
   let totalUsers;
