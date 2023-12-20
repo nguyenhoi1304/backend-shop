@@ -12,10 +12,31 @@ exports.getDetail = async (req, res, next) => {
   }
 };
 
-exports.findAll = async (req, res, next) => {
-  //Lấy ra tất cả user
-  const allUser = await UserModel.find().lean();
-  res.json(allUser);
+exports.findAll = (req, res, next) => {
+  const currentPage = req.query.page || 1;
+  const perPage = req.query.limit;
+  let totalUsers;
+  UserModel.find()
+    .countDocuments()
+    .then((count) => {
+      totalUsers = count;
+      return UserModel.find()
+        .skip((currentPage - 1) * perPage)
+        .limit(perPage)
+        .then((users) => {
+          res.status(200).json({
+            message: "Successfully",
+            users: users,
+            totalUsers: totalUsers,
+          });
+        });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };
 
 exports.register = async (req, res, next) => {
