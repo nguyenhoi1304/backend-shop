@@ -12,6 +12,7 @@ const cartRoutes = require("./src/routers/cart");
 const orderRoutes = require("./src/routers/order");
 const historyRoutes = require("./src/routers/history");
 const adminRoutes = require("./src/routers/admin");
+const newsRoutes = require("./src/routers/news");
 
 dotenv.config();
 ///////////////////////
@@ -44,6 +45,7 @@ app.use(cookieParser());
 
 // routes
 app.use(productRoutes);
+app.use(newsRoutes);
 app.use(userRoutes);
 app.use(cartRoutes);
 app.use(orderRoutes);
