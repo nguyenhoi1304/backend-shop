@@ -2,7 +2,7 @@ const NewsModel = require("../models/news");
 
 exports.getAllNews = async (req, res, next) => {
   const dataNews = await NewsModel.find();
-  res.json(dataNews);
+  res.status(200).json(dataNews);
 };
 
 exports.createNews = async (req, res, next) => {
